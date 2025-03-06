@@ -25,11 +25,23 @@ app.get('/ralf', (req, res) => {
     res.send('vielen Dank Ralf');
 });
 
+
+//wenn ein neues item hinzugefügt werden soll, soll nodejs diesen request entgegennehmen
 app.post('/add', (req, res) => {
     db.run('INSERT INTO tasks (title) VALUES (?)', [req.body.title], function () {
         res.json({tag: "Mittwoch", bald_wirds: "Mittagspause"});
     });
 });
+
+
+//Liste mir alle existierenden tasks auf
+// hier sollte nur alle items als json zurückgegeben werden
+app.get('/liste_abrufen', (req, res) => {
+    db.all('SELECT * FROM tasks', function(err, rows){
+        res.json(rows);
+    });
+});
+
 
 
 app.listen(3050, "localhost", () => {
