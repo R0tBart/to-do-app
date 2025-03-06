@@ -11,12 +11,12 @@ const db = new sqlite3.Database('./tasks.db', (err) => {
     if (err) {
         console.error('Could not connect to database', err);
     } else {
-console.log('Connected to database');
+console.log('Datenbank erfolgreich verbunden');
 db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, completed BOOLEAN DEFAULT 0)', (err) => {
             if (err) {
-                console.error('Error creating table:', err.message);
+                console.error('Fehler beim erstellen:', err.message);
             } else {
-                console.log('Table created successfully');
+                console.log('Datenbanktabelle erfolgreich erstellt');
             }
         });
 
@@ -59,7 +59,7 @@ db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, 
         });
 
         app.listen(3050, "localhost", () => {
-            console.log("bald wird es Mittagspause geben");
+            console.log("Server läuft auf http://localhost:3050");
         });
     }
 });
