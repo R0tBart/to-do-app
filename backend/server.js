@@ -12,6 +12,7 @@ const db = new sqlite3.Database('./tasks.db', (err) => {
         console.error('Fehler bei der Datenbankverbindung:', err);
     } else {
 console.log('Datenbank erfolgreich verbunden');
+
 db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, completed BOOLEAN DEFAULT 0)', (err) => {
             if (err) {
                 console.error('Fehler beim erstellen:', err.message);

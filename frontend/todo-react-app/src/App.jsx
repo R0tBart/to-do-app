@@ -8,7 +8,6 @@ function App() {
     const addTask = () => {
         console.log('es läuft');
 
-        
 
         fetch('http://localhost:3050/add', {
             method: 'POST',
