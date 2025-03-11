@@ -11,16 +11,10 @@ function App() {
 
         fetch('http://localhost:3050/add', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ title: newTask }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                setTasks([...tasks, { id: data.id, title: newTask, completed: false }]);
-                setNewTask('');
-            });
+        });
+        setNewTask('');
     };
 
     const toggleTaskCompletion = (id) => {
