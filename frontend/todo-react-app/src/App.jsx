@@ -13,7 +13,10 @@ function App() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ title: newTask }),
-        });
+        })
+        .then(res => res.json())
+        .then(data => setTasks([...tasks, data]))
+        .catch(error => console.error('Error adding task:', error));
         setNewTask('');
     };
 
@@ -25,16 +28,19 @@ function App() {
         fetch('http://localhost:3050/liste_abrufen')
             .then(res => res.json())
             .then(data => setTasks(data))
-            .then (console.log('tasks:', tasks));
+            .catch(error => console.error('Error fetching tasks:', error));
     }, []);
 
-    console.log(tasks);
+    useEffect(() => {
+        console.log('tasks:', tasks);
+    }, [tasks]);
 
+    console.log(tasks);
     return (
         <>
             <h1>Todo - List <span>with node and react</span></h1>
-            <input type="text" placeholder="Eingabe" value={newTask} onChange={(e) => setNewTask(e.target.value)} />
-            <button onClick={addTask}>zur todo hinzufügen</button>
+            <h1>Todo List <span>with Node and React</span></h1>
+            <button onClick={addTask}>Add to todo</button>
             <ul>
             {tasks.map(({id, title, completed}) => (
                 <li key={id}>
