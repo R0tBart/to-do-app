@@ -32,20 +32,11 @@ db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, 
             res.send('request received');
         });
 
-        app.get('/ralf', (req, res) => {
-            db.run('INSERT INTO tasks (title) VALUES (?)', [req.body.title], function (err) {
-                if (err) {
-                    res.status(500).json({error: err.message});
-                    return;
-                }
-                res.json({tag: "Mittwoch", bald_wirds: "Mittagspause"});
-            });
-        });
 
         //wenn ein neues item hinzugefügt werden soll, soll nodejs diesen request entgegennehmen
         app.post('/add', (req, res) => {
             db.run('INSERT INTO tasks (title) VALUES (?)', [req.body.title], function () {
-                res.json({tag: "Mittwoch", bald_wirds: "Mittagspause"});
+                res.json({tag: "Mittwoch", bald_ist: "Mittagspause"});
             });
         });
 
