@@ -49,7 +49,7 @@ function App() {
 
     return (
         <>
-            <h1>Todo - List <span>with node and react</span></h1>
+            <h1>Todo - Liste mit node and react</h1>
             <h2>Was ist zu tun?</h2>
             <h3>Trage es hier ein</h3>
             <input  type="text" value={newTask} onChange={e => setNewTask(e.target.value)} />
