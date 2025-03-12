@@ -6,7 +6,9 @@ function App() {
     const [newTask, setNewTask] = useState('');
 
     const addTask = () => {
-        if (!newTask.trim()) return;
+        console.log('es läuft');
+
+        
 
         fetch('http://localhost:3050/add', {
             method: 'POST',
@@ -48,15 +50,16 @@ function App() {
     return (
         <>
             <h1>Todo - List <span>with node and react</span></h1>
-            <h2>Tasks</h2>
+            <h2>Was ist zu tun?</h2>
+            <h3>Trage es hier ein</h3>
             <input  type="text" value={newTask} onChange={e => setNewTask(e.target.value)} />
-            <button onClick={addTask} disabled={!newTask.trim()}>Add to todo</button>
-            <input type="text" value={newTask} onChange={e => setNewTask(e.target.value)} />
+            <button onClick={addTask} disabled={!newTask.trim()}>Hinzufügen</button>
+            <button onClick={() => setTasks([])}>Clear all</button>
             <ul>
             {tasks.map(({id, title, completed}) => (
                 <li key={id}>
                     <input type="checkbox" checked={completed} onChange={() => toggleTaskCompletion(id)} /> {title}
-                    <button onClick={() => itemLoeschen(id)}>❌</button>
+                    <button className="delete-button" onClick={() => itemLoeschen(id)}>❌</button>
                 </li>
             ))}
             </ul>
