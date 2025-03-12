@@ -36,7 +36,7 @@ db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, 
         //wenn ein neues item hinzugefügt werden soll, soll nodejs diesen request entgegennehmen
         app.post('/add', (req, res) => {
             db.run('INSERT INTO tasks (title) VALUES (?)', [req.body.title], function () {
-                res.json({tag: "Mittwoch", bald_ist: "Mittagspause"});
+                res.json({ id: this.lastID, title: req.body.title, completed: 0});
             });
         });
 
@@ -49,6 +49,18 @@ db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 res.json(rows);
             });
         });
+
+
+        app.delete('/delete/:id', (req, res) => {
+            db.run('DELETE FROM tasks WHERE id = ?', [req.params.id], function(err) {
+                if (err) {
+                    res.status(500).json({ error: err.message });
+                    return;
+                }
+                res.json({ message: 'Task gelöscht' });
+            });
+        }
+        );
 
         app.listen(3050, "localhost", () => {
             console.log("Server läuft auf http://localhost:3050");

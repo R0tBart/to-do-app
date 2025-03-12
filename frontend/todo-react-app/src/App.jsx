@@ -8,6 +8,7 @@ function App() {
     const addTask = () => {
         console.log('es läuft');
 
+        
 
         fetch('http://localhost:3050/add', {
             method: 'POST',
@@ -36,15 +37,29 @@ function App() {
     }, [tasks]);
 
     console.log(tasks);
+
+    const itemLoeschen = (id) => {
+        fetch('http://localhost:3050/delete/' + id, {
+            method: 'DELETE',
+        })
+        .then(() => setTasks(tasks.filter(task => task.id !== id)))
+        .catch(error => console.error('Error deleting task:', error));
+    };
+
+
     return (
         <>
-            <h1>Todo - List <span>with node and react</span></h1>
-            <h1>Todo List <span>with Node and React</span></h1>
-            <button onClick={addTask}>Add to todo</button>
+            <h1>Todo - List <span>with node and react</span></h1><p>
+            <h2>Tasks</h2>
+            </p>
+            <input  type="text" value={newTask} onChange={e => setNewTask(e.target.value)} />
+            <button onClick={addTask} disabled={!newTask.trim()}>Add to todo</button>
+            <button onClick={() => setTasks([])}>Clear all</button>
             <ul>
             {tasks.map(({id, title, completed}) => (
                 <li key={id}>
                     <input type="checkbox" checked={completed} onChange={() => toggleTaskCompletion(id)} /> {title}
+                    <button onClick={() => itemLoeschen(id)}>❌</button>
                 </li>
             ))}
             </ul>
