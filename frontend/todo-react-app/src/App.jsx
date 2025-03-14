@@ -8,8 +8,6 @@ function App() {
     const addTask = () => {
         console.log('es läuft');
 
-        
-
         fetch('http://localhost:3050/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -21,8 +19,13 @@ function App() {
         setNewTask('');
     };
 
-    const toggleTaskCompletion = (id) => {
-        setTasks(tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
+    const toggleCompletion = (id) => {
+        setTasks(tasks.map(task => {
+            if (task.id === id) {
+                return { ...task, completed: !task.completed };
+            }
+            return task;
+        }));
     };
 
     useEffect(() => {
@@ -58,7 +61,7 @@ function App() {
             <ul>
             {tasks.map(({id, title, completed}) => (
                 <li key={id}>
-                    <input type="checkbox" checked={completed} onChange={() => toggleTaskCompletion(id)} /> {title}
+                    <input type="checkbox" checked={completed} onChange={() => toggleCompletion(id)} /> {title}
                     <button className="delete-button" onClick={() => itemLoeschen(id)}>❌</button>
                 </li>
             ))}

@@ -1,64 +1,54 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { Pool } = require('pg');
+require('dotenv').config();
+
 
 const app = express();
 const PORT = 3050;
 const HOST = 'localhost';
 
-const db = new sqlite3.Database('./tasks.db', (err) => {
-    if (err) {
-        return console.error('Fehler bei der Datenbankverbindung:', err);
-    }
-    console.log('Datenbank erfolgreich verbunden');
 
-    db.run(`CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        title TEXT, 
-        completed BOOLEAN DEFAULT 0
-    )`, (err) => {
-        if (err) {
-            return console.error('Fehler beim Erstellen:', err.message);
-        }
-        console.log('Datenbanktabelle erfolgreich erstellt');
-    });
+const pool = new Pool({
+    user: process.env.DB_USERNAME,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 });
+
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     res.send('Request received');
 });
 
-app.post('/add', (req, res) => {
-    const { title } = req.body;
-    db.run('INSERT INTO tasks (title) VALUES (?)', [title], function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ id: this.lastID, title, completed: 0 });
-    });
+app.get('/liste_abrufen', async (req, res) => {  
+    const result = await pool.query('SELECT * FROM tasks');
+    res.json(result.rows);
 });
 
-app.get('/liste_abrufen', (req, res) => {
-    db.all('SELECT * FROM tasks', (err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(rows);
-    });
+
+app.post('/add', async (req, res) => {
+    console.log('POST kommt an!');
+    const result = await pool.query('INSERT INTO tasks (title) VALUES ($1)', [req.body.title]);
+    console.log(result.rows)
+    res.json(result.rows);
 });
 
+app.put('/update/:id', async (req, res) => {
+    console.log('PUT kommt an!');
+    const result = await pool.query('UPDATE tasks SET title = $1 WHERE id = $2', [req.body.title, req.params.id]);
+    res.json(result.rows);
+});
 app.delete('/delete/:id', (req, res) => {
+    console.log('DELETE kommt an!');
     const { id } = req.params;
-    db.run('DELETE FROM tasks WHERE id = ?', [id], function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ message: 'Task gelöscht' });
-    });
+    const result = pool.query('DELETE FROM tasks WHERE id = $1', [id]);
+    res.json(result.rows);
 });
 
 app.listen(PORT, HOST, () => {
