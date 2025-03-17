@@ -1,0 +1,19 @@
+# Basis-Image mit Node.js
+FROM node:18-alpine AS build
+
+# Arbeitsverzeichnis setzen
+WORKDIR /app
+
+# Package-Dateien kopieren und Abhängigkeiten installieren
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Quellcode kopieren und die App bauen
+COPY . .
+RUN npm run build
+
+RUN npm install -g serve
+
+EXPOSE 5173
+
+CMD ["serve", "-s","build","-l","5173"]

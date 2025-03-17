@@ -1,0 +1,14 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+# Ensure this port matches the port your application is using
+EXPOSE 3050
+
+CMD ["node", "server.js"]
