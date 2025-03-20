@@ -1,17 +1,13 @@
-# Basis-Image mit Node.js
-FROM node:18-alpine AS build
+FROM node:18-bullseye
 
-# Arbeitsverzeichnis setzen
 WORKDIR /app
 
-# Package-Dateien kopieren und Abhängigkeiten installieren
-COPY package.json package-lock.json ./
+COPY package.json ./
 
-# Quellcode kopieren und die App bauen
+RUN npm install
+
 COPY . .
-
-RUN npm install -g serve
 
 EXPOSE 5173
 
-CMD ["serve", "-s","build","-l","5173"]
+CMD ["npm", "run", "devdocker"]

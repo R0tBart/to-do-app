@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite--host 0.0.0.0",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "devdocker": "vite --host 0.0.0.0"
   },
   "dependencies": {
     "react": "^19.0.0",

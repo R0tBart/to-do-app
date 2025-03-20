@@ -14,8 +14,8 @@ require('dotenv').config();
 // Der Server wird erstellt und auf dem Port 3050 gestartet.
 // Der Server wird auf Anfragen warten und die Anfragen verarbeiten.
 const app = express();
-const PORT = 3050;
-const HOST = 'localhost';
+// const PORT = 3050;
+// const HOST = 'localhost';
 
 // Datenbankverbindung, die in .env-Datei definiert ist mit postgresql.
 // Die Datenbankverbindung wird in einer Pool-Instanz gespeichert.
@@ -73,6 +73,6 @@ app.delete('/delete/:id', async (req, res) => {
 // Server starten und auf Anfragen warten 
 // Der Server wird auf dem Port 3050 gestartet und auf Anfragen gewartet.
 // Wenn der Server gestartet wird, wird eine Nachricht in der Konsole ausgegeben.
-app.listen(PORT, HOST, () => {
-    console.log(`Server läuft auf http://${HOST}:${PORT}`);
+app.listen(3050, "0.0.0.0", () => {
+    console.log(`Server läuft!`);
 });
