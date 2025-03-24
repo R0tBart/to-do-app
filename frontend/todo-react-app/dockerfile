@@ -1,13 +1,24 @@
-FROM node:18-bullseye
+FROM nginx:1.25.0-alpine
 
-WORKDIR /app
+COPY /dist /usr/share/nginx/html
 
-COPY package.json ./
+EXPOSE 80
 
-RUN npm install
+CMD ["nginx", "-g", "daemon off;"]
 
-COPY . .
 
-EXPOSE 5173
 
-CMD ["npm", "run", "devdocker"]
+
+# FROM node:18-bullseye
+
+# WORKDIR /app
+
+# COPY package.json ./
+
+# RUN npm install
+
+# COPY . .
+
+# EXPOSE 5173
+
+# CMD ["npm", "run", "devdocker"]

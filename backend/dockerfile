@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:23.10.0-bullseye
 
 WORKDIR /app
 
@@ -8,7 +8,6 @@ RUN npm install
 
 COPY . .
 
-# Ensure this port matches the port your application is using
 EXPOSE 3050
 
 CMD ["node", "server.js"]
