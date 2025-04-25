@@ -76,3 +76,6 @@ app.delete('/delete/:id', async (req, res) => {
 app.listen(3050, "0.0.0.0", () => {
     console.log(`Server läuft!`);
 });
+
+module.exports = app;
+// Exportiert die App, damit sie in den Tests verwendet werden kann.
